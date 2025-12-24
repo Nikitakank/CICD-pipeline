@@ -1,0 +1,25 @@
+name: Auto Deploy to Technohertz
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Technohertz Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 148.72.215.184
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          script: |
+            cd /home/technohertz/War/Demo
+            chmod +x deploy_demo.sh
+            ./deploy_demo.sh
